@@ -1,0 +1,1093 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Laundry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-1: #fff3f6;
+            --bg-2: #ffe7ee;
+            --card: rgba(255, 248, 251, 0.9);
+            --card-strong: rgba(255, 255, 255, 0.98);
+            --text: #3c1436;
+            --muted: #8f5e7e;
+            --accent: #b53170;
+            --accent-2: #f09ac4;
+            --shadow: 0 24px 60px rgba(180, 95, 145, 0.12);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            background: var(--card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 32px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 22px 0 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .logo-wrapper {
+            width: 100px;
+            height: 100px;
+            border-radius: 28px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 16px 34px rgba(181, 49, 112, 0.12);
+            display: grid;
+            place-items: center;
+            margin: 0 auto 12px;
+        }
+
+        .brand-logo {
+            width: 84%;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .header h1 {
+            font-size: clamp(26px, 3.3vw, 42px);
+            font-weight: 900;
+            margin-bottom: 8px;
+            color: var(--accent);
+            letter-spacing: 0.2em;
+        }
+
+        .header .business-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        
+        /* Ensure all header text is centered and spaced nicely */
+        .header, .header * {
+            text-align: center;
+        }
+
+        .header {
+            padding-top: 18px;
+            padding-bottom: 16px;
+        }
+
+        .header h1 {
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+
+        .header .business-name {
+            margin-bottom: 6px;
+        }
+
+        .header .business-address {
+            font-size: 15px; /* slightly larger as requested */
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .header .business-phone {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .header .business-address,
+        .header .business-phone {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .header p {
+            margin-top: 10px;
+            color: #8f5e7e;
+            font-size: 14px;
+        }
+
+        .header .brand-tagline {
+            font-size: 13px;
+            color: #ad6c8e;
+            letter-spacing: 0.08em;
+            margin-top: 6px;
+        }
+
+        .header p {
+            margin-top: 8px;
+            color: #7c8594;
+            font-size: 14px;
+        }
+
+        .form-section,
+        .orders-section,
+        .archive-section {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255,255,255,0.85);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+            margin-bottom: 18px;
+        }
+
+        .form-title,
+        .table-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: var(--accent);
+            letter-spacing: 0.02em;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid rgba(181, 49, 112, 0.18);
+            border-radius: 14px;
+            font-size: 14px;
+            background: #fff7fb;
+            color: var(--text);
+            transition: 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: rgba(181, 49, 112, 0.55);
+            box-shadow: 0 0 0 3px rgba(240, 154, 196, 0.24);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 999px;
+            padding: 11px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #2e5a96);
+            color: white;
+            box-shadow: 0 8px 16px rgba(25,59,109,0.18);
+        }
+
+        .btn-secondary {
+            background: #f3efe9;
+            color: var(--accent);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(25,59,109,0.95), rgba(54,90,149,0.9));
+            color: white;
+            padding: 16px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(25,59,109,0.16);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.95;
+            letter-spacing: 0.2px;
+        }
+
+        .orders-section {
+            margin-top: 30px;
+        }
+
+        .table-toolbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+        }
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .order-card {
+            background: rgba(255, 244, 249, 0.92);
+            border: 1px solid rgba(255, 224, 236, 0.85);
+            border-radius: 26px;
+            box-shadow: 0 20px 40px rgba(181, 49, 112, 0.08);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+        }
+
+        .order-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .order-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: #5f1e49;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: default;
+            margin-top: 8px;
+        }
+
+        .order-subtitle {
+            font-size: 13px;
+            color: #9e5f82;
+            margin-top: 4px;
+        }
+
+        .order-meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .order-meta-item {
+            background: rgba(248,250,252,0.9);
+            border-radius: 16px;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #374151;
+        }
+
+        .order-meta-item strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #6b7280;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .order-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .status-select {
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid #d1d5db;
+            background: #f8fafc;
+            color: #24324a;
+            font-size: 13px;
+        }
+
+        .status-proses {
+            background: #fff6db;
+            color: #b07a00;
+        }
+
+        .status-selesai {
+            background: #dcf5e6;
+            color: #2f825d;
+        }
+
+        .status-baru {
+            background: #e8f0ff;
+            color: #1f5bbd;
+        }
+
+        .btn-action {
+            border: none;
+            border-radius: 999px;
+            padding: 9px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, rgba(240,154,196,0.18), rgba(181,49,112,0.16));
+            color: #9f2b67;
+        }
+
+        .btn-cetak {
+            background: linear-gradient(135deg, rgba(238,243,255,0.95), rgba(252,224,238,0.9));
+            color: #7a3b63;
+        }
+
+        .btn-archive {
+            background: linear-gradient(135deg, rgba(255, 222, 235, 0.96), rgba(255, 192, 222, 0.95));
+            color: #982d5a;
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, rgba(255, 226, 234, 0.95), rgba(255, 191, 210, 0.95));
+            color: #bf3657;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 24px 10px;
+            color: var(--muted);
+        }
+
+        .empty-state-icon {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .currency {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, rgba(240,154,196,0.95), rgba(181,49,112,0.95));
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 10px; }
+            .container { padding: 16px; border-radius: 20px; }
+            .stats { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .order-meta { grid-template-columns: 1fr; }
+            .order-head { flex-direction: column; align-items: flex-start; }
+            .table-toolbar { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-wrapper" style="margin:0 auto 12px;"></div>
+            <h1>🧺 ANUGERAH REGENSI LAUNDRY</h1>
+            <div class="business-name">Anugerah Regensi Laundry</div>
+            <div class="business-address">Jln. Lintas Pekanbaru - Duri Km. 79 (Depan Alfamart 79)</div>
+            <div class="business-phone">WA: 082161055984</div>
+            <div class="brand-tagline">Bersih • Wangi • Terpercaya</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalOrders">0</div>
+                <div class="stat-label">Total Pesanan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalWeight">0</div>
+                <div class="stat-label">Total Berat (KG)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalPrice">Rp0</div>
+                <div class="stat-label">Total Harga</div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="form-title">Tambah Pesanan Baru</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nama">Nama Pelanggan</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama pelanggan">
+                </div>
+                <div class="form-group">
+                    <label for="layanan">Jenis Layanan</label>
+                    <select id="layanan" onchange="updateHargaEstimasi()">
+                        <option value="">-- Pilih Layanan --</option>
+                        <option value="reguler">Reguler (Rp 7.000) - 2 hari</option>
+                        <option value="cuci">Cuci Aja (Rp 4.000)</option>
+                        <option value="setrika">Setrika Aja (Rp 5.000)</option>
+                        <option value="express">Express (Rp 10.000) - 1 hari</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="noHp">No HP Pelanggan</label>
+                    <input type="tel" id="noHp" placeholder="081234567890" inputmode="numeric" pattern="[0-9]*">
+                </div>
+                <div class="form-group">
+                    <label for="berat">Berat (KG)</label>
+                    <input type="number" id="berat" placeholder="Masukkan berat" min="0" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label>Harga per KG</label>
+                    <input type="text" id="hargaPerKg" readonly placeholder="Otomatis">
+                </div>
+                <div class="form-group">
+                    <label>Estimasi Selesai</label>
+                    <input type="text" id="estimasiSelesai" readonly placeholder="Otomatis">
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="tambahPesanan()">Tambah Pesanan</button>
+                <button class="btn btn-secondary" onclick="bersihkanForm()">Bersihkan</button>
+            </div>
+        </div>
+
+        <div class="orders-section">
+            <div class="table-title">Daftar Pesanan</div>
+            <div class="table-toolbar">
+                <button class="btn-export" onclick="exportToCSV()">📥 Export ke CSV</button>
+            </div>
+            <div id="ordersList" class="orders-list">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <p>Belum ada pesanan. Tambahkan pesanan baru untuk memulai.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="archive-section">
+            <div class="table-title">Laporan Pesanan (Arsip)</div>
+            <div class="table-toolbar">
+                <button class="btn-export" onclick="cetakLaporan()">🖨️ Cetak Laporan</button>
+            </div>
+            <div id="archiveList" class="orders-list">
+                <div class="empty-state">
+                    <div class="empty-state-icon">🗂️</div>
+                    <p>Belum ada arsip pesanan. Pesanan selesai akan muncul di sini.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'pesananLaundry';
+        const STORAGE_ARCHIVE_KEY = 'pesananLaundryArsip';
+
+        const dataLayanan = {
+            reguler: { nama: 'Reguler', harga: 7000, estimasi: '2 hari' },
+            cuci: { nama: 'Cuci Aja', harga: 4000, estimasi: '-' },
+            setrika: { nama: 'Setrika Aja', harga: 5000, estimasi: '-' },
+            express: { nama: 'Express', harga: 10000, estimasi: '1 hari' }
+        };
+
+        let pesananList = [];
+        let arsipList = [];
+
+        function updateHargaEstimasi() {
+            const layanan = document.getElementById('layanan').value;
+            if (layanan && dataLayanan[layanan]) {
+                document.getElementById('hargaPerKg').value = `Rp ${dataLayanan[layanan].harga.toLocaleString('id-ID')}`;
+                document.getElementById('estimasiSelesai').value = dataLayanan[layanan].estimasi;
+            } else {
+                document.getElementById('hargaPerKg').value = '';
+                document.getElementById('estimasiSelesai').value = '';
+            }
+        }
+
+        function simpanKeLocalStorage() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(pesananList));
+        }
+
+        function simpanArsipKeLocalStorage() {
+            localStorage.setItem(STORAGE_ARCHIVE_KEY, JSON.stringify(arsipList));
+        }
+
+        function muatDariLocalStorage() {
+            const aktif = localStorage.getItem(STORAGE_KEY);
+            const arsip = localStorage.getItem(STORAGE_ARCHIVE_KEY);
+            if (aktif) {
+                try {
+                    pesananList = JSON.parse(aktif);
+                } catch (e) {
+                    console.error('Gagal memuat data aktif:', e);
+                    pesananList = [];
+                }
+            }
+            if (arsip) {
+                try {
+                    arsipList = JSON.parse(arsip);
+                } catch (e) {
+                    console.error('Gagal memuat data arsip:', e);
+                    arsipList = [];
+                }
+            }
+            tampilkanTabel();
+            tampilkanArsip();
+            updateStatistik();
+        }
+
+        function tambahPesanan() {
+            const nama = document.getElementById('nama').value.trim();
+            const noHp = document.getElementById('noHp').value.trim();
+            const layanan = document.getElementById('layanan').value;
+            const berat = parseFloat(document.getElementById('berat').value);
+
+            if (!nama) {
+                alert('Masukkan nama pelanggan!');
+                return;
+            }
+            if (!noHp || !/^[0-9]+$/.test(noHp)) {
+                alert('Masukkan No HP pelanggan hanya dengan angka!');
+                return;
+            }
+            if (!layanan) {
+                alert('Pilih jenis layanan!');
+                return;
+            }
+            if (!berat || berat <= 0) {
+                alert('Masukkan berat yang valid!');
+                return;
+            }
+
+            const layananData = dataLayanan[layanan];
+            const pesanan = {
+                id: Date.now(),
+                nama,
+                noHp,
+                layanan: layananData.nama,
+                berat,
+                harga: berat * layananData.harga,
+                estimasi: layananData.estimasi,
+                status: 'Baru',
+                tanggalMasuk: new Date().toLocaleString('id-ID')
+            };
+
+            pesananList.push(pesanan);
+            simpanKeLocalStorage();
+            bersihkanForm();
+            tampilkanTabel();
+            updateStatistik();
+        }
+
+        function hapusPesanan(id) {
+            if (confirm('Hapus pesanan ini?')) {
+                pesananList = pesananList.filter(p => p.id !== id);
+                simpanKeLocalStorage();
+                tampilkanTabel();
+                updateStatistik();
+            }
+        }
+
+        function updateOrderStatus(id, status) {
+            const pesanan = pesananList.find(p => p.id === id);
+            if (pesanan) {
+                pesanan.status = status;
+                if (status === 'Selesai' && !pesanan.tanggalDiambil) {
+                    pesanan.tanggalDiambil = new Date().toLocaleString('id-ID');
+                }
+                simpanKeLocalStorage();
+                tampilkanTabel();
+                updateStatistik();
+            }
+        }
+
+        function arsipPesanan(id) {
+            const pesananIndex = pesananList.findIndex(p => p.id === id);
+            if (pesananIndex === -1) return;
+            const pesanan = pesananList[pesananIndex];
+            if (pesanan.status !== 'Selesai') {
+                alert('Pesanan harus selesai terlebih dahulu sebelum diarsipkan.');
+                return;
+            }
+            if (!confirm(`Arsipkan pesanan ${pesanan.nama}?`)) return;
+
+            pesananList.splice(pesananIndex, 1);
+            arsipList.push({ ...pesanan, tanggalDiambil: new Date().toLocaleString('id-ID'), archivedAt: new Date().toLocaleString('id-ID') });
+            simpanKeLocalStorage();
+            simpanArsipKeLocalStorage();
+            tampilkanTabel();
+            tampilkanArsip();
+            updateStatistik();
+        }
+
+        function formatPhoneForWhatsApp(phone) {
+            const digits = phone.replace(/\D/g, '');
+            if (digits.startsWith('0')) {
+                return '62' + digits.slice(1);
+            }
+            return digits;
+        }
+
+       // FUNGSI UNTUK NOTA AWAL
+function kirimNotaWA(index) {
+    const pesanan = pesananList[index];
+    if (!pesanan) return;
+    
+    // Pastikan menggunakan .noHp (sesuai definisi di tambahPesanan)
+    const nomorWA = formatPhoneForWhatsApp(pesanan.noHp); 
+    const pesan = `Halo Bpk/Ibu ${pesanan.nama},%0A` +
+                  `Berikut detail pesanan laundry Anda:%0A` +
+                  `Nama : ${pesanan.nama}%0A` +
+                  `Tanggal Masuk : ${pesanan.tanggalMasuk || '-' }%0A` +
+                  `Layanan : ${pesanan.layanan}%0A` +
+                  `Berat : ${pesanan.berat} KG%0A` +
+                  `Harga : Rp ${pesanan.harga.toLocaleString('id-ID')}%0A` +
+                  `Estimasi : ${pesanan.estimasi}%0A%0A` +
+                  `Salam,%0A==Anugerah Regensi Laundry==`;
+    
+    window.open(`https://wa.me/${nomorWA}?text=${pesan}`, '_blank');
+}
+
+// FUNGSI UNTUK STATUS SELESAI
+function kirimWA(index) {
+    const pesanan = pesananList[index];
+    if (!pesanan) return;
+    
+    // Pastikan menggunakan .noHp
+    const nomorWA = formatPhoneForWhatsApp(pesanan.noHp); 
+    const pesan = `Halo Bpk/Ibu ${pesanan.nama},%0A` +
+                  `Laundryan Anda yang masuk pada ${pesanan.tanggalMasuk || '-'} ` +
+                  `telah selesai pada ${new Date().toLocaleString()} dan siap untuk diambil.%0A` +
+                  `Total Pembayaran : Rp ${pesanan.harga.toLocaleString('id-ID')}%0A%0A` +
+                  `Terima kasih telah mempercayakan laundryan Anda kepada kami.%0A` +
+                  `Salam,%0A==Anugerah Regensi Laundry==`;
+    
+    window.open(`https://wa.me/${nomorWA}?text=${pesan}`, '_blank');
+}
+
+        function renderPesanan() {
+            tampilkanTabel();
+        }
+
+        function tampilkanTabel() {
+            const container = document.getElementById('ordersList');
+
+            if (pesananList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>Belum ada pesanan. Tambahkan pesanan baru untuk memulai.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = pesananList.map((pesanan, index) => {
+                const statusClass = pesanan.status === 'On Progress' ? 'status-proses' : pesanan.status === 'Selesai' ? 'status-selesai' : 'status-baru';
+                const waNotaButton = pesanan.status !== 'Selesai'
+                    ? `<button type="button" class="btn-action btn-whatsapp" onclick="kirimNotaWA(${index})">💬 WA Nota</button>`
+                    : '';
+                const waSelesaiButton = pesanan.status === 'Selesai'
+                    ? `<button type="button" class="btn-action btn-whatsapp" onclick="kirimWA(${index})">💬 Kirim WA Selesai</button>`
+                    : '';
+                return `
+                    <div class="order-card">
+                        <div class="order-head">
+                            <div>
+                                <div class="order-name">${pesanan.nama}</div>
+                                <div class="order-subtitle">${pesanan.layanan}</div>
+                                <span class="status-badge ${statusClass}">${pesanan.status}</span>
+                            </div>
+                            <select class="status-select" onchange="updateOrderStatus(${pesanan.id}, this.value)">
+                                <option value="Baru" ${pesanan.status === 'Baru' ? 'selected' : ''}>Baru</option>
+                                <option value="On Progress" ${pesanan.status === 'On Progress' ? 'selected' : ''}>On Progress</option>
+                                <option value="Selesai" ${pesanan.status === 'Selesai' ? 'selected' : ''}>Selesai</option>
+                            </select>
+                        </div>
+                        <div class="order-meta">
+                            <div class="order-meta-item">
+                                <strong>No HP</strong>
+                                ${pesanan.noHp}
+                            </div>
+                            <div class="order-meta-item">
+                                <strong>Berat</strong>
+                                ${pesanan.berat} KG
+                            </div>
+                            <div class="order-meta-item">
+                                <strong>Harga</strong>
+                                <span class="currency">Rp${pesanan.harga.toLocaleString('id-ID')}</span>
+                            </div>
+                            <div class="order-meta-item">
+                                <strong>Estimasi</strong>
+                                ${pesanan.estimasi}
+                            </div>
+                            <div class="order-meta-item">
+                                <strong>Tanggal Masuk</strong>
+                                ${pesanan.tanggalMasuk || '-'}
+                            </div>
+                            <div class="order-meta-item">
+                                <strong>No</strong>
+                                ${index + 1}
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            ${waNotaButton}
+                            ${waSelesaiButton}
+                            <button type="button" class="btn-action btn-cetak" onclick="cetakNota(${pesanan.id})">🖨️ Cetak</button>
+                            <button type="button" class="btn-action btn-archive" onclick="arsipPesanan(${pesanan.id})">✅ Selesai & Arsipkan</button>
+                            <button type="button" class="btn-action btn-delete" onclick="hapusPesanan(${pesanan.id})">🗑 Hapus</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function tampilkanArsip() {
+            const container = document.getElementById('archiveList');
+
+            if (arsipList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🗂️</div>
+                        <p>Belum ada arsip pesanan. Pesanan selesai akan muncul di sini.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = arsipList.map((pesanan, index) => `
+                <div class="order-card">
+                    <div class="order-head">
+                        <div>
+                            <div class="order-name">${pesanan.nama}</div>
+                            <div class="order-subtitle">${pesanan.layanan}</div>
+                        </div>
+                        <span class="status-badge status-selesai">Arsip</span>
+                    </div>
+                    <div class="order-meta">
+                        <div class="order-meta-item">
+                            <strong>No HP</strong>
+                            ${pesanan.noHp}
+                        </div>
+                        <div class="order-meta-item">
+                            <strong>Berat</strong>
+                            ${pesanan.berat} KG
+                        </div>
+                        <div class="order-meta-item">
+                            <strong>Harga</strong>
+                            <span class="currency">Rp${pesanan.harga.toLocaleString('id-ID')}</span>
+                        </div>
+                        <div class="order-meta-item">
+                            <strong>Tanggal Masuk</strong>
+                            ${pesanan.tanggalMasuk || '-'}
+                        </div>
+                        <div class="order-meta-item">
+                            <strong>Tanggal Diambil</strong>
+                            ${pesanan.tanggalDiambil || '-'}
+                        </div>
+                        <div class="order-meta-item">
+                            <strong>No</strong>
+                            ${index + 1}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function bersihkanForm() {
+            document.getElementById('nama').value = '';
+            document.getElementById('noHp').value = '';
+            document.getElementById('layanan').value = '';
+            document.getElementById('berat').value = '';
+            document.getElementById('hargaPerKg').value = '';
+            document.getElementById('estimasiSelesai').value = '';
+            document.getElementById('nama').focus();
+        }
+
+        function updateStatistik() {
+            const totalOrders = pesananList.length;
+            const totalWeight = pesananList.reduce((sum, p) => sum + p.berat, 0);
+            const totalPrice = pesananList.reduce((sum, p) => sum + p.harga, 0);
+
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('totalWeight').textContent = totalWeight.toFixed(1);
+            document.getElementById('totalPrice').textContent = `Rp${totalPrice.toLocaleString('id-ID')}`;
+        }
+
+        function cetakNota(id) {
+            const pesanan = pesananList.find(p => p.id === id);
+            if (!pesanan) return;
+
+            const tanggalSelesaiRow = pesanan.status === 'Selesai' 
+                ? `<div class="tanggal-row">Tgl Selesai: ${pesanan.tanggalDiambil || '-'}</div>`
+                : '';
+
+            const struk = `
+                <!DOCTYPE html>
+                <html lang="id">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Nota - ${pesanan.nama}</title>
+                    <style>
+                        * { margin: 0; padding: 0; box-sizing: border-box; }
+                        html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+                        body { font-family: Arial, sans-serif; background: white; padding: 6px; }
+                        .struk { width: 320px; margin: 0 auto; padding: 10px; background: white; line-height: 1.5; }
+                        .header { text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px; margin-bottom: 10px; }
+                        .toko-nama { font-size: 13px; font-weight: bold; margin-bottom: 3px; }
+                        .toko-alamat { font-size: 9px; line-height: 1.3; margin-bottom: 8px; }
+                        .tanggal-row { font-size: 10px; margin-bottom: 4px; }
+                        .detail { margin: 10px 0; }
+                        .detail-row { display: flex; font-size: 11px; margin-bottom: 8px; text-align: left; }
+                        .detail-label { font-weight: bold; min-width: 70px; }
+                        .detail-value { flex: 1; text-align: left; word-break: break-word; }
+                        .divider { border-top: 1px dashed #000; margin: 8px 0; }
+                        .total-section { margin: 8px 0; text-align: center; }
+                        .total-row { font-size: 13px; font-weight: bold; letter-spacing: 0.5px; }
+                        .footer { margin-top: 10px; text-align: center; font-size: 9px; line-height: 1.4; }
+                        .footer-text { margin: 3px 0; }
+                        @media print { 
+                            html, body { margin: 0; padding: 0; width: 80mm; }
+                            body { padding: 0; }
+                            .struk { width: 100%; margin: 0; padding: 8px; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="struk">
+                        <div class="header">
+                            <div class="toko-nama">ANUGERAH REGENSI LAUNDRY</div>
+                            <div class="toko-alamat">Jln. Lintas Pekanbaru - Duri Km. 79<br>(Depan Alfamart 79)</div>
+                        </div>
+                        <div class="tanggal-row">Tgl Masuk: ${pesanan.tanggalMasuk || '-'}</div>
+                        ${tanggalSelesaiRow}
+                        <div class="divider"></div>
+                        <div class="detail">
+                            <div class="detail-row"><span class="detail-label">Nama</span><span class="detail-value">: ${pesanan.nama}</span></div>
+                            <div class="detail-row"><span class="detail-label">No HP</span><span class="detail-value">: ${pesanan.noHp}</span></div>
+                            <div class="detail-row"><span class="detail-label">Layanan</span><span class="detail-value">: ${pesanan.layanan}</span></div>
+                            <div class="detail-row"><span class="detail-label">Berat</span><span class="detail-value">: ${pesanan.berat} KG</span></div>
+                            <div class="detail-row"><span class="detail-label">Harga/KG</span><span class="detail-value">: Rp${(pesanan.harga / pesanan.berat).toLocaleString('id-ID')}</span></div>
+                            <div class="detail-row"><span class="detail-label">Estimasi</span><span class="detail-value">: ${pesanan.estimasi}</span></div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="total-section">
+                            <div class="total-row">TOTAL: Rp${pesanan.harga.toLocaleString('id-ID')}</div>
+                        </div>
+                        <div class="footer">
+                            <div class="footer-text">Terima kasih atas kepercayaan Anda</div>
+                            <div class="footer-text">Kami siap melayani dengan sebaik-baiknya</div>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const windowCetak = window.open('', '_blank', 'height=400,width=400');
+            windowCetak.document.write(struk);
+            windowCetak.document.close();
+            windowCetak.print();
+        }
+
+        function cetakLaporan() {
+            if (arsipList.length === 0) {
+                alert('Tidak ada arsip untuk dicetak.');
+                return;
+            }
+
+            const totalOrderArsip = arsipList.length;
+            const totalArsipWeight = arsipList.reduce((sum, p) => sum + p.berat, 0);
+            const totalArsipPrice = arsipList.reduce((sum, p) => sum + p.harga, 0);
+
+            const rows = arsipList.map((pesanan, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${pesanan.nama}</td>
+                    <td>${pesanan.noHp}</td>
+                    <td>${pesanan.layanan}</td>
+                    <td>${pesanan.berat} KG</td>
+                    <td>Rp${pesanan.harga.toLocaleString('id-ID')}</td>
+                    <td>${pesanan.estimasi}</td>
+                    <td>${pesanan.tanggalMasuk || '-'}</td>
+                    <td>${pesanan.tanggalDiambil || '-'}</td>
+                </tr>
+            `).join('');
+
+            const laporan = `
+                <!DOCTYPE html>
+                <html lang="id">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Laporan Arsip Anugerah Regensi Laundry</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; color: #24324a; }
+                        h1 { margin-bottom: 8px; }
+                        .header { margin-bottom: 12px; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+                        th, td { padding: 8px 10px; border: 1px solid #ddd; text-align: left; font-size: 13px; }
+                        th { background: #f3f3f8; }
+                        .summary { margin-top: 16px; }
+                        .summary div { margin-bottom: 6px; }
+                        @media print { body { margin: 0; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Laporan Pesanan (Arsip)</h1>
+                        <div>Anugerah Regensi Laundry</div>
+                        <div>Jln. Lintas Pekanbaru - Duri Km. 79 (Depan Alfamart 79)</div>
+                        <div>Tanggal: ${new Date().toLocaleString('id-ID')}</div>
+                    </div>
+                    <div class="summary">
+                        <div>Total Arsip: ${totalOrderArsip}</div>
+                        <div>Total Berat: ${totalArsipWeight.toFixed(1)} KG</div>
+                        <div>Total Pendapatan: Rp${totalArsipPrice.toLocaleString('id-ID')}</div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>No HP</th>
+                                <th>Layanan</th>
+                                <th>Berat</th>
+                                <th>Harga</th>
+                                <th>Estimasi</th>
+                                <th>Tanggal Masuk</th>
+                                <th>Tanggal Diambil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows}
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `;
+
+            const windowReport = window.open('', '_blank', 'height=700,width=900');
+            windowReport.document.write(laporan);
+            windowReport.document.close();
+            windowReport.print();
+        }
+
+        function exportToCSV() {
+            if (pesananList.length === 0) {
+                alert('Tidak ada data untuk diekspor!');
+                return;
+            }
+
+            let csv = 'No,Nama Pelanggan,No HP,Jenis Layanan,Berat (KG),Harga (Rp),Estimasi Selesai,Status\n';
+            pesananList.forEach((pesanan, index) => {
+                csv += `${index + 1},"${pesanan.nama}","${pesanan.noHp}","${pesanan.layanan}",${pesanan.berat},${pesanan.harga},"${pesanan.estimasi}","${pesanan.status}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `pesanan_laundry_${new Date().getTime()}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        window.addEventListener('load', () => {
+            muatDariLocalStorage();
+            document.getElementById('nama').focus();
+            document.getElementById('berat').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    tambahPesanan();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
